@@ -39,7 +39,7 @@ try:
         elif i==1:
             print "intruder detected ", i
             seq+=1
-            if seq==5:
+            if seq==2:
                 seq=0
                 tts = gTTS(text=jugar, lang='es')
                 tts.save("jugar.mp3")

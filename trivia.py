@@ -9,7 +9,7 @@ import time
 import pygame
 import Adafruit_MPR121.MPR121 as MPR121
 
-
+import controller
 
 #as3:/usr/local/lib/python2.7/site-packages
 # cat sitecustomize.py
@@ -26,7 +26,7 @@ GPIO.setup(25,GPIO.IN)
 def volverController(channel):
     # /home/pi/Downloads/Trivia/controller.py    
     print "VOLVER A CONTROLLER"
-
+    controller.run()
     
 
 #Interrupciones
@@ -188,9 +188,9 @@ def run():
                     tts.save("cateforias.mp3")
                     os.system('mplayer '+ "cateforias.mp3")
             
-            tts = gTTS(text=seleccionTema, lang='es')
-            tts.save("seleccionTema.mp3")
-            os.system('mplayer '+ "seleccionTema.mp3")
+##            tts = gTTS(text=seleccionTema, lang='es')
+##            tts.save("seleccionTema.mp3")
+##            os.system('mplayer '+ "seleccionTema.mp3")
 
             
 ##            valo=""
@@ -198,9 +198,6 @@ def run():
 ##            temaPregunta=funcionSeleccionJugadorTres(valo)
 ##            print temaPregunta + "-----------------------------"
             
-
-
-            #Recordar cada jugador debe poder escoger su tema
             continuar = 0
             valorZ=""
             while continuar==0:
@@ -215,10 +212,11 @@ def run():
                                      # means the pin is being touched, and 0 means it is not being touched.
                                      pin_bit = 1 << i
                                      # First check if transitioned from not touched to touched.
-                                     if current_touched & pin_bit and not last_touched & pin_bit:
-                                             valo=0
+                                     if current_touched & pin_bit and last_touched & pin_bit:
+                                             #valo=0
                                              valo='{0}'.format(i)
                                              valorZ=funcionSeleccionJugadorUno(int(valo))
+                                             print valorZ+"---------------------"
                                              continuar=1
                             last_touched = current_touched
                             time.sleep(0.1)
@@ -229,8 +227,8 @@ def run():
                                     # means the pin is being touched, and 0 means it is not being touched.
                                     pin_bit = 1 << i
                                     # First check if transitioned from not touched to touched.
-                                    if current_touched & pin_bit and not last_touched & pin_bit:
-                                            valo=0
+                                    if current_touched & pin_bit and last_touched & pin_bit:
+                                            #valo=0
                                             valo='{0}'.format(i)
                                             valorZ=funcionSeleccionJugadorDos(int(valo))
                                             continuar=1
@@ -244,8 +242,8 @@ def run():
                                     # means the pin is being touched, and 0 means it is not being touched.
                                     pin_bit = 1 << i
                                     # First check if transitioned from not touched to touched.
-                                    if current_touched & pin_bit and not last_touched & pin_bit:
-                                            valo=0
+                                    if current_touched & pin_bit and last_touched & pin_bit:
+                                            #valo=0
                                             valo='{0}'.format(i)
                                             valorZ=funcionSeleccionJugadorTres(int(valo))
                                             continuar=1
@@ -298,8 +296,6 @@ def run():
                             #tts.save("respuestaSelect.mp3")
                             #os.system('mplayer '+ "respuestaSelect.mp3")
 
-                            
-                            #respuesta = raw_input("Respuesta: ")
                             valorR=""
                             continuar = 0
                             while continuar==0:
@@ -310,7 +306,7 @@ def run():
                                                     # means the pin is being touched, and 0 means it is not being touched.
                                                     pin_bit = 1 << i
                                                     # First check if transitioned from not touched to touched.
-                                                    if current_touched & pin_bit and not last_touched & pin_bit:
+                                                    if current_touched & pin_bit and last_touched & pin_bit:
                                                             #print '{0} touched!'.format(i)
                                                             t= '{0}'.format(i)
                                                             valorR = funcionRespuesta(int(t))
@@ -327,7 +323,7 @@ def run():
                                                     # means the pin is being touched, and 0 means it is not being touched.
                                                     pin_bit = 1 << i
                                                     # First check if transitioned from not touched to touched.
-                                                    if current_touched & pin_bit and not last_touched & pin_bit:
+                                                    if current_touched & pin_bit and last_touched & pin_bit:
                                                             #print '{0} touched!'.format(i)
                                                             t= '{0}'.format(i)
                                                             valorR = funcionRespuestaJugadorDos(int(t))
@@ -344,7 +340,7 @@ def run():
                                                     # means the pin is being touched, and 0 means it is not being touched.
                                                     pin_bit = 1 << i
                                                     # First check if transitioned from not touched to touched.
-                                                    if current_touched & pin_bit and not last_touched & pin_bit:
+                                                    if current_touched & pin_bit and last_touched & pin_bit:
                                                             #print '{0} touched!'.format(i)
                                                             t= '{0}'.format(i)
                                                             valorR = funcionRespuestaJugadorTres(int(t))
