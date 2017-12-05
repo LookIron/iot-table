@@ -9,18 +9,12 @@ from datetime import datetime
 from datetime import timedelta
 from shutil import copyfile
 import time
+
 firebase = firebase.FirebaseApplication('https://mesa-interactiva.firebaseio.com/', None)
-
-
-
 
 pygame.init()
 
 RECORD_SECONDS = 30
-
-
-
-
 
 def reproductor(archivo):
     pygame.mixer.music.load(archivo)
@@ -83,6 +77,6 @@ def descargador():
     time.sleep(3)
     reproductor(filenameTemporal)
 
-
-descargador()
+def run_musica():
+    descargador()
 

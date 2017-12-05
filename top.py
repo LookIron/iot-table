@@ -72,6 +72,7 @@ class MyThread ( threading.Thread ):
       global puntaje1
       global puntaje2
       global puntaje3
+      global f
 
       #cont =0
       while stop:
@@ -107,99 +108,99 @@ class MyThread ( threading.Thread ):
         time.sleep(0.1)
 
         #cont+=1
+def llenar_f():
+    global f
+    f=[]
+    for i in range(12):
+          f.append(bool(random.getrandbits(1)))
 
+def setGPIO_as_output():
+    for i in range(12):
+       GPIO.setup(pin[i],GPIO.OUT)
 
+def run():
+    llenar_f()
+    setGPIO_as_output()
+    MyThread().start()
+    tts = gTTS(text=empieza, lang='es')
+    tts.save("empieza.mp3")
+    os.system('mplayer '+ "empieza.mp3")
+    
+    ronda=1
+    while ronda<20:
+        global f
 
-        
-MyThread().start()
-tts = gTTS(text=empieza, lang='es')
-tts.save("empieza.mp3")
-os.system('mplayer '+ "empieza.mp3")
-
-for i in range(12):
-   GPIO.setup(pin[i],GPIO.OUT) 
-   
-
-ronda=1
-while ronda<20:
-   global f
-   f=[]
-   for i in range(12):
-   
-       GPIO.output(pin[i],GPIO.LOW)
+        llenar_f()
        
-   for i in range(12):
-      f.append(bool(random.getrandbits(1)))
-      
- 
-   for i in range(12):
+        for i in range(12):       
+            GPIO.output(pin[i],GPIO.LOW)           
+           
+        for i in range(12):
+
+            if f[i] is True:
+                GPIO.output(pin[i],GPIO.HIGH)
+                #print x        
        
-       if f[i] is True:
-           GPIO.output(pin[i],GPIO.HIGH)
-           #print x
-
-       
-   
-   time.sleep(randrange(1,3))
-   ronda+=1
-   
-
-for i in range(12):
-   GPIO.output(pin[i],GPIO.LOW)
-   
-print('juego terminado')
-
-global stop
-stop=False    
-#MyThread()._Thread_stop()
-
-if puntaje1>puntaje2 and puntaje1>puntaje3:
-   print('ganador jugador 1')
-   g1=ganador+" 1"
-   tts = gTTS(text=g1, lang='es')
-   tts.save("g1.mp3")
-   os.system('mplayer '+ "g1.mp3")
-   
-elif puntaje2>puntaje3 and puntaje2>puntaje1:
-   print('ganador jugador 2')
-   g2=ganador+" 2"
-   tts = gTTS(text=g2, lang='es')
-   tts.save("g2.mp3")
-   os.system('mplayer '+ "g2.mp3")
-   
-elif puntaje3>puntaje2 and puntaje3>puntaje1:
-   print('ganador jugador 3')
-   g3=ganador+" 3"
-   tts = gTTS(text=g3, lang='es')
-   tts.save("g3.mp3")
-   os.system('mplayer '+ "g3.mp3")
-   
-elif puntaje1==puntaje2 and puntaje1==puntaje3:
-   print('empate de los 3')
-   tts = gTTS(text=empate3, lang='es')
-   tts.save("empate3.mp3")
-   os.system('mplayer '+ "empate3.mp3")
-   
-elif puntaje1==puntaje2:
-   print('empate jugador 1 y 2')
-   tts = gTTS(text=empate12, lang='es')
-   tts.save("empate12.mp3")
-   os.system('mplayer '+ "empate12.mp3")
-   
-elif puntaje1==puntaje3:
-   print('empate jugador 1 y 3')
-   tts = gTTS(text=empate13, lang='es')
-   tts.save("empate13.mp3")
-   os.system('mplayer '+ "empate13.mp3")
-   
-elif puntaje2==puntaje3:
-   print('empate jugador 2 y 3')
-   tts = gTTS(text=empate23, lang='es')
-   tts.save("empate23.mp3")
-   os.system('mplayer '+ "empate23.mp3")
-   
-
-os.system("clear")
-GPIO.cleanup()
-os.system ("/usr/bin/python /home/pi/Desktop/program/controller.py")
+        time.sleep(randrange(1,3))
+        ronda+=1
+    
+    
+    for i in range(12):
+        GPIO.output(pin[i],GPIO.LOW)
+    
+    print('juego terminado')
+    
+    global stop
+    stop=False    
+    #MyThread()._Thread_stop()
+    
+    if puntaje1>puntaje2 and puntaje1>puntaje3:
+       print('ganador jugador 1')
+       g1=ganador+" 1"
+       tts = gTTS(text=g1, lang='es')
+       tts.save("g1.mp3")
+       os.system('mplayer '+ "g1.mp3")
+    
+    elif puntaje2>puntaje3 and puntaje2>puntaje1:
+       print('ganador jugador 2')
+       g2=ganador+" 2"
+       tts = gTTS(text=g2, lang='es')
+       tts.save("g2.mp3")
+       os.system('mplayer '+ "g2.mp3")
+    
+    elif puntaje3>puntaje2 and puntaje3>puntaje1:
+       print('ganador jugador 3')
+       g3=ganador+" 3"
+       tts = gTTS(text=g3, lang='es')
+       tts.save("g3.mp3")
+       os.system('mplayer '+ "g3.mp3")
+    
+    elif puntaje1==puntaje2 and puntaje1==puntaje3:
+       print('empate de los 3')
+       tts = gTTS(text=empate3, lang='es')
+       tts.save("empate3.mp3")
+       os.system('mplayer '+ "empate3.mp3")
+    
+    elif puntaje1==puntaje2:
+       print('empate jugador 1 y 2')
+       tts = gTTS(text=empate12, lang='es')
+       tts.save("empate12.mp3")
+       os.system('mplayer '+ "empate12.mp3")
+    
+    elif puntaje1==puntaje3:
+       print('empate jugador 1 y 3')
+       tts = gTTS(text=empate13, lang='es')
+       tts.save("empate13.mp3")
+       os.system('mplayer '+ "empate13.mp3")
+    
+    elif puntaje2==puntaje3:
+       print('empate jugador 2 y 3')
+       tts = gTTS(text=empate23, lang='es')
+       tts.save("empate23.mp3")
+       os.system('mplayer '+ "empate23.mp3")
+    
+    
+    os.system("clear")
+    GPIO.cleanup()
+    os.system ("/usr/bin/python /home/pi/Desktop/program/controller.py")
      

@@ -11,6 +11,11 @@ import os
 import sys
 from subprocess import Popen, PIPE
 
+from multiprocessing import Pool
+
+import controller
+import musica
+
 try:
 
     reload(sys)  
@@ -40,13 +45,17 @@ try:
                 tts = gTTS(text=jugar, lang='es')
                 tts.save("jugar.mp3")
                 os.system('mplayer '+ "jugar.mp3")
-
+                
                 ##condicion
-                musica=Popen(["sudo","python","/home/pi/Desktop/program/musica.py","&"],stdout=PIPE, stderr=PIPE)
+                pool = Pool(processes=1)              # Start a worker processes.
+                pool.apply_async(musica.run_musica, None, None)
+                #musica=Popen(["sudo","python","/home/pi/Desktop/program/musica.py","&"],stdout=PIPE, stderr=PIPE)
                 #print musica.communicate()[0]
-
-                os.system ("/usr/bin/python /home/pi/Desktop/program/controller.py")
-                os.system("clear")
+                print "run controller..."
+                controller.run()
+                
+                #os.system ("/usr/bin/python /home/pi/iot-table/controller.py")
+                #os.system("clear")
                 GPIO.cleanup()
                  
             
@@ -54,14 +63,16 @@ try:
 except KeyboardInterrupt:  
     # here you put any code you want to run before the program   
     # exits when you press CTRL+C  
-    print "\n", counter # print value of counter  
-  
-except:  
+    # print value of counter
+    print "DETENIDO POR TECLADO"
+
+except Exception as e:
     # this catches ALL other exceptions including errors.  
     # You won't get any error messages for debugging  
     # so only use it once your code is working  
-    print "Other error or exception occurred!"  
-  
+    print "Other error or exception occurred!"
+    print e
+
 finally:  
     GPIO.cleanup() # this ensures a clean exit 
 
