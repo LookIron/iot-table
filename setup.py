@@ -14,7 +14,6 @@ from subprocess import Popen, PIPE
 from multiprocessing import Pool
 
 import controller
-import musica
 
 try:
 
@@ -47,9 +46,9 @@ try:
                 os.system('mplayer '+ "jugar.mp3")
                 
                 ##condicion
-                pool = Pool(processes=1)              # Start a worker processes.
-                pool.apply_async(musica.run_musica, None, None)
-                #musica=Popen(["sudo","python","/home/pi/Desktop/program/musica.py","&"],stdout=PIPE, stderr=PIPE)
+                #pool = Pool(processes=1)              # Start a worker processes.
+                #pool.apply_async(musica.run_musica, None, None)
+                musica=Popen(["sudo","python","/home/pi/iot-table/musica.py","&"],stdout=PIPE, stderr=PIPE)
                 #print musica.communicate()[0]
                 print "run controller..."
                 controller.run()

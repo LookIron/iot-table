@@ -77,6 +77,6 @@ def descargador():
     time.sleep(3)
     reproductor(filenameTemporal)
 
-def run_musica():
-    descargador()
+
+descargador()
 

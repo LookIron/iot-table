@@ -10,6 +10,7 @@ import pygame
 import Adafruit_MPR121.MPR121 as MPR121
 
 
+
 #as3:/usr/local/lib/python2.7/site-packages
 # cat sitecustomize.py
 # encoding=utf8  
@@ -24,9 +25,7 @@ GPIO.setup(25,GPIO.IN)
 #Callbacks
 def volverController(channel):
     # /home/pi/Downloads/Trivia/controller.py    
-    os.system ("/usr/bin/python /home/pi/Desktop/program/controller.py")
-    os.system("clear")
-    GPIO.cleanup()
+    print "VOLVER A CONTROLLER"
 
     
 
@@ -34,10 +33,10 @@ def volverController(channel):
 GPIO.add_event_detect(25, GPIO.RISING, callback = volverController)
 
 
-seleccionTema = "Ingrese el número del Tema de su preferencia: "
+seleccionTema = ""
 respuestaCorrecta = "¡Tu respuesta es correcta!"
 respuestaIncorrecta = "¡Tu respuesta es incorrecta!"
-categoriasSelect= "Selecione el número de la categoria de preguntas a continuación"
+categoriasSelect= "Selecione la categoría a continuación"
 respuestaSelect="Selecione una de las opciones entre a y d"
 ##intInicio =""
 ##intFinal=""
@@ -124,14 +123,14 @@ def funcionSeleccionJugadorDos(opcion):
         
                 
         res=""
-        if opcion==0:
+        if opcion==4:
                 res="1"
-        elif opcion==1:
+        elif opcion==5:
                 res="2"
                 
-        elif opcion==2:
+        elif opcion==6:
                 res="3"
-        elif opcion==3:
+        elif opcion==7:
                 res="4"
 
         return res
@@ -140,14 +139,14 @@ def funcionSeleccionJugadorTres(opcion):
         
                 
         res=""
-        if opcion==0:
+        if opcion==8:
                 res="1"
-        elif opcion==1:
+        elif opcion==9:
                 res="2"
                 
-        elif opcion==2:
+        elif opcion==10:
                 res="3"
-        elif opcion==3:
+        elif opcion==11:
                 res="4"
 
         return res
@@ -194,10 +193,10 @@ def run():
             os.system('mplayer '+ "seleccionTema.mp3")
 
             
-            valo=""
-            valo=0
-            temaPregunta=funcionSeleccionJugadorTres(valo)
-            print temaPregunta + "-----------------------------"
+##            valo=""
+##            valo=0
+##            temaPregunta=funcionSeleccionJugadorTres(valo)
+##            print temaPregunta + "-----------------------------"
             
 
 
@@ -258,7 +257,7 @@ def run():
             
             #temaPregunta = raw_input(seleccionTema)
             
-            cadena = temaPregunta+".txt";
+            cadena = valorZ+".txt";
             ficheroSeleccion = open(cadena,'r')
             numero = random.randrange(11)
             
